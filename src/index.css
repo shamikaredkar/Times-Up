@@ -45,6 +45,13 @@ header p {
   color: #c6f4f2;
 }
 
+
+header img {
+  width: 40px;
+  margin-top: 0px;
+  margin-left: 30px;
+}
+
 #player {
   text-align: center;
 }
