@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import ResultModal from "./ResultModal";
 
 export default function TimerChallenge({ title, targetTime }) {
   //to know when the timer expired
@@ -8,30 +9,33 @@ export default function TimerChallenge({ title, targetTime }) {
   const timer = useRef();
   function handleStart() {
     setTimeout(() => {
-      timer = setTimerExpired(true);
+      timer.current = setTimerExpired(true);
     }, targetTime * 1000);
     setTimerStarted(true);
   }
 
   function handleStop() {
-    clearTimeout(timer);
+    clearTimeout(timer.current);
   }
 
   return (
-    <section className='challenge'>
-      <h2>{title}</h2>
-      {timerExpired && <p>You lost</p>}
-      <p className='challenge-time'>
-        {targetTime} second{targetTime > 1 ? "s" : ""}
-      </p>
-      <p>
-        <button onClick={timerStarted ? handleStop : handleStart}>
-          {timerStarted ? "Stop" : "Start"}Challenge
-        </button>
-      </p>
-      <p className={timerStarted ? "active" : undefined}>
-        {timerStarted ? "Time is running" : "Timer inactive"}
-      </p>
-    </section>
+    <>
+      {timerExpired && <ResultModal targetTime={targetTime} result='Lost' />}
+      <section className='challenge'>
+        <h2>{title}</h2>
+        {timerExpired && <p>You lost</p>}
+        <p className='challenge-time'>
+          {targetTime} second{targetTime > 1 ? "s" : ""}
+        </p>
+        <p>
+          <button onClick={timerStarted ? handleStop : handleStart}>
+            {timerStarted ? "Stop" : "Start"}Challenge
+          </button>
+        </p>
+        <p className={timerStarted ? "active" : undefined}>
+          {timerStarted ? "Time is running" : "Timer inactive"}
+        </p>
+      </section>
+    </>
   );
 }
